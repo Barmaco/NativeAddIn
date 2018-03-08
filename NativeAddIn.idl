@@ -1,0 +1,52 @@
+// NativeAddIn.idl : NativeAddIn 的 IDL 源
+//
+
+// 此文件将由 MIDL 工具处理以
+// 产生类型库(NativeAddIn.tlb)和封送处理代码。
+
+#include "olectl.h"
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(A140D537-CDC2-4AB0-869A-59639DD1397A),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IConnect : IDispatch{
+};
+
+[
+    object,
+    uuid(5E43BA64-B310-404B-8D24-F795D5D2F5CF),
+    dual,
+    nonextensible,
+    helpstring("IRibbonCallback Interface"),
+    pointer_default(unique)
+]
+interface IRibbonCallback : IDispatch{
+	[id(1)] HRESULT UILoad(IDispatch* ribbon);
+	[id(2)] HRESULT GetImage([in] BSTR *pbstrImageId, [out, retval] IPictureDisp ** ppdispImage);
+	[id(3)] HRESULT GetLabel([in] IDispatch *pControl, [out, retval] BSTR *pbstrLabel);
+	[id(4)] HRESULT LoginButtonClicked(IDispatch* ribbonControl);
+};
+
+[
+	uuid(02A70A30-5DFB-432C-B26A-4DA46F50FE2F),
+	version(1.0),
+]
+library NativeAddInLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(76BA3686-9FBF-4330-9A1C-3DB405EDE59B)		
+	]
+	coclass Connect
+	{
+		//[default] interface IConnect;
+		[default] interface IRibbonCallback;
+	};
+};
+
